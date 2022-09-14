@@ -22,7 +22,7 @@ data "template_file" "api_container_definitions" {
   }
 }
 
-######### DONT TOUCH IT #####################
+
 resource "aws_security_group" "ecs_service" {
   description = "Access for the ECS Service"
   name        = "${local.prefix}-ecs-service"
@@ -89,9 +89,6 @@ resource "aws_ecs_task_definition" "api" {
   execution_role_arn       = aws_iam_role.task_execution_role.arn
   task_role_arn            = aws_iam_role.app_iam_role.arn
 
-  volume {
-    name = "static"
-  }
 
   tags = local.common_tags
 }

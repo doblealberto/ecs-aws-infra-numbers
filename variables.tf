@@ -1,13 +1,13 @@
 variable "prefix" {
-  default = "raad"
+  default = "finalproject"
 }
 
 variable "project" {
-  default = "recipe-app-api-devops"
+  default = "final-challenge"
 }
 
 variable "contact" {
-  default = "email@londonappdev.com"
+  default = "doblealberto@outlook.com"
 }
 
 variable "db_username" {

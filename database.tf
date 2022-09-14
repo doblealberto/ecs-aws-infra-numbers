@@ -5,10 +5,7 @@ resource "aws_db_subnet_group" "main" {
     aws_subnet.private_b.id,
   ]
 
-  # tags = merge(
-  #   local.common_tags,
-  #   tomap({"Name", "${local.prefix}-main"})
-  # )
+
 }
 
 resource "aws_security_group" "rds" {
@@ -32,7 +29,7 @@ resource "aws_security_group" "rds" {
 
 resource "aws_db_instance" "main" {
   identifier              = "${local.prefix}-db"
-  name                    = "recipe"
+  name                    = "postgres"
   allocated_storage       = 20
   storage_type            = "gp2"
   engine                  = "postgres"

@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "proxy" {
-  name                 = "${var.project_name}-proxy-image"
+  name                 = "${var.project_name}-prod-proxy-image"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -8,7 +8,7 @@ resource "aws_ecr_repository" "proxy" {
 }
 
 resource "aws_ecr_repository" "frontend" {
-  name                 = "${var.project_name}-frontend-image"
+  name                 = "${var.project_name}-prod-frontend-image"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -17,7 +17,7 @@ resource "aws_ecr_repository" "frontend" {
 }
 
 resource "aws_ecr_repository" "backend" {
-  name                 = "${var.project_name}-backend-image"
+  name                 = "${var.project_name}-prod-backend-image"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {

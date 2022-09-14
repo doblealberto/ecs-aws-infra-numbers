@@ -52,10 +52,7 @@ resource "aws_instance" "bastion" {
     aws_security_group.bastion.id
   ]
 
-  # tags = merge(
-  #   local.common_tags,
-  #   tomap("Name", "${local.prefix}-bastion")
-  # )
+
 }
 
 resource "aws_security_group" "bastion" {

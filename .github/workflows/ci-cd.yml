@@ -1,0 +1,55 @@
+name: Deploy Infrastructure
+on:
+  push:
+    branches:
+      - prod
+      - develop
+      - staging
+
+jobs:
+  tf_processes:
+    
+    name: Deploy infrastructure
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+ 
+
+    - uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-1
+
+    - uses: hashicorp/setup-terraform@v2
+
+    - name: Terraform fmt
+      id: fmt
+      run: terraform fmt 
+      continue-on-error: true
+
+    - name: Terraform Init
+      id: init
+      run: terraform init
+      continue-on-error: true
+
+    - name: Terraform Validate
+      id: validate 
+      run: terraform validate -no-color
+      continue-on-error: true
+
+    - name: Terraform Plan
+      id: plan
+      env:
+        db_username: ${{ secrets.TF_VAR_DB_USERNAME }}
+        db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
+        run: |
+         terraform workspace ${{ github.ref_name }} || terraform workspace new ${{ github.ref_name }}
+         terraform plan -var="db_username=${{ secrets.TF_VAR_DB_USERNAME }}" -var="db_password=${{ secrets.TF_VAR_DB_PASSWORD }}" 
+        continue-on-error: true
+
+
+    - name: Terraform Apply
+      id: apply
+      run: terraform apply -auto-approve
+      continue-on-error: true
