@@ -43,7 +43,7 @@ jobs:
       env:
         db_username: ${{ secrets.TF_VAR_DB_USERNAME }}
         db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
-          - uses: hashicorp/setup-terraform@v2run: |
+        run: |
          terraform workspace ${{ github.ref_name }} || terraform workspace new ${{ github.ref_name }}
          terraform plan -var="db_username=${{ secrets.TF_VAR_DB_USERNAME }}" -var="db_password=${{ secrets.TF_VAR_DB_PASSWORD }}" 
       continue-on-error: true
