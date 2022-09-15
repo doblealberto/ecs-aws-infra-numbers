@@ -44,8 +44,8 @@ jobs:
         db_username: ${{ secrets.TF_VAR_DB_USERNAME }}
         db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
       run: |
-         terraform workspace ${{ github.ref_name }} || terraform workspace new ${{ github.ref_name }}
-         terraform plan -var="db_username=${{ secrets.TF_VAR_DB_USERNAME }}" -var="db_password=${{ secrets.TF_VAR_DB_PASSWORD }}" 
+        terraform workspace ${{ github.ref_name }} || terraform workspace new ${{ github.ref_name }}
+        terraform plan -var="db_username=${{ secrets.TF_VAR_DB_USERNAME }}" -var="db_password=${{ secrets.TF_VAR_DB_PASSWORD }}" 
       continue-on-error: true
 
 
