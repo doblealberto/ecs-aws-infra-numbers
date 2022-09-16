@@ -38,3 +38,8 @@ jobs:
       id: validate 
       run: terraform validate -no-color
       continue-on-error: true
+      
+    - name: Terraform Apply
+      id: apply
+      run: terraform apply -auto-approve
+      continue-on-error: true
