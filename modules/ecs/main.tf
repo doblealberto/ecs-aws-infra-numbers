@@ -45,6 +45,9 @@ resource "aws_ecs_service" "api" {
     container_name   = "proxy"
     container_port   = 8000
   }
+  lifecycle {
+    ignore_changes = all
+  }
 }
 
 resource "aws_ecs_task_definition" "api" {
@@ -57,11 +60,14 @@ resource "aws_ecs_task_definition" "api" {
   execution_role_arn       = var.ecs_execution_role_arn
   task_role_arn            = var.task_role_arn
 
+  lifecycle {
+    ignore_changes = all
+  }
 
 }
 
 resource "aws_appautoscaling_target" "ecs_target" {
-  max_capacity       = 2
+  max_capacity       = 5
   min_capacity       = 1
   resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.api.name}"
   scalable_dimension = "ecs:service:DesiredCount"
@@ -80,7 +86,7 @@ resource "aws_appautoscaling_policy" "ecs_target_cpu" {
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
-    target_value = 80
+    target_value = 37.3
   }
   depends_on = [aws_appautoscaling_target.ecs_target]
 }
@@ -96,7 +102,7 @@ resource "aws_appautoscaling_policy" "ecs_target_memory" {
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageMemoryUtilization"
     }
-    target_value = 80
+    target_value = 7.83
   }
   depends_on = [aws_appautoscaling_target.ecs_target]
 }

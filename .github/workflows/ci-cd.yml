@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - prod
-      - develop
+      - dev
       - staging
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-west-1
+        aws-region: us-east-1
 
     - uses: hashicorp/setup-terraform@v2
 
@@ -41,9 +41,6 @@ jobs:
       
     - name: Terraform Plan
       id: plan
-      env:
-        db_username: ${{ secrets.TF_VAR_DB_USERNAME }}
-        db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
       run: |
         terraform workspace ${{ github.ref_name }} || terraform workspace new ${{ github.ref_name }}
         terraform plan -var="db_username=${{ secrets.TF_VAR_DB_USERNAME }}" -var="db_password=${{ secrets.TF_VAR_DB_PASSWORD }}"

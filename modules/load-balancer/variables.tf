@@ -1,8 +1,8 @@
-variable private_a_subnet_id {
+variable public_a_subnet_id {
     type = string
     description = "Placeholder description"
 } 
-variable private_b_subnet_id {
+variable public_b_subnet_id {
     type = string
     description = "Placeholder description"
 } 

@@ -10,3 +10,7 @@
 # output "api_endpoint" {
 #   value = aws_lb.api.dns_name
 # }
+
+output "dns_fqdn" {
+    value = module.dns.fqdn
+}

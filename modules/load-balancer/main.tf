@@ -4,8 +4,8 @@ resource "aws_lb" "api" {
   name               = "${var.project_name}-main"
   load_balancer_type = "application"
   subnets = [
-    var.private_a_subnet_id,
-    var.private_b_subnet_id
+    var.public_a_subnet_id,
+    var.public_b_subnet_id
   ]
 
   security_groups = [var.security_groups_lb_id]
@@ -30,7 +30,13 @@ resource "aws_lb_listener" "api" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.api.arn
+        type = "redirect"
+        redirect {
+          port        = "443"
+          protocol    = "HTTPS"
+          status_code = "HTTP_301"
+        }
   }
+
 }
+

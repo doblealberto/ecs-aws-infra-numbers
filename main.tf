@@ -1,6 +1,17 @@
 
 # Configure the AWS Provider
 
+
+terraform {
+  backend "s3" {
+    bucket         = "final-project-challenge-number-app"
+    key            = "terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "final-challenge-table"
+  }
+  required_version = ">= 0.13" 
+}
+
 provider "aws" {
   region = var.aws_region
 }
@@ -129,7 +140,7 @@ module "ecs" {
     task_role_arn  = module.iam.task_role_arn
     ecs_auto_scaling_role_arn = module.iam.ecs_auto_scaling_role_arn
 
-    dns_name = module.load-balancer.dns_name
+    dns_name = module.dns.fqdn
     target_group_arn = module.load-balancer.target_group_arn
 
 
@@ -140,8 +151,8 @@ module "load-balancer" {
     project_name = local.project_name
     
     vpc_id = module.network.vpc_id
-    private_a_subnet_id = module.network.private_a_subnet_id
-    private_b_subnet_id = module.network.private_b_subnet_id
+    public_a_subnet_id = module.network.public_a_subnet_id
+    public_b_subnet_id = module.network.public_b_subnet_id
     
     security_groups_lb_id = module.sgs.security_groups_lb_id
 
@@ -151,17 +162,26 @@ module "load-balancer" {
     ]
 }
 
+module "dns" {
+   source = "./modules/dns"
+   lb_dns_name = module.load-balancer.dns_name
+}
+
+resource "aws_lb_listener" "api_https" {
+  load_balancer_arn = module.load-balancer.lb_arn
+  port              = 443
+  protocol          = "HTTPS"
+
+  certificate_arn = module.dns.validated_certificate_arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = module.load-balancer.target_group_arn
+  }
+}
 
 
-# terraform {
-#   backend "s3" {
-#     bucket         = "final-project-challenge-number-app"
-#     key            = "terraform.tfstate"
-#     region         = "us-west-1"
-#     dynamodb_table = "final-challenge-table"
-#   }
-#   required_version = ">= 0.13" 
-# }
+
 
 
 
