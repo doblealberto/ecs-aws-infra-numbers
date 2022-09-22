@@ -19,7 +19,7 @@ resource "aws_subnet" "public_a" {
   cidr_block              = "10.1.1.0/24"
   map_public_ip_on_launch = true
   vpc_id                  = aws_vpc.main.id
-  availability_zone       = "${data.aws_region.current.name}a"
+  availability_zone       = "${var.aws_region}a"
 
 
 }
@@ -57,18 +57,13 @@ resource "aws_subnet" "public_b" {
   cidr_block              = "10.1.2.0/24"
   map_public_ip_on_launch = true
   vpc_id                  = aws_vpc.main.id
-  availability_zone       = "${data.aws_region.current.name}b"
+  availability_zone       = "${var.aws_region}b"
 
 
 }
 
 resource "aws_route_table" "public_b" {
   vpc_id = aws_vpc.main.id
-
-  # tags = merge(
-  #   local.common_tags,
-  #   tomap({"Name", "${local.prefix}-public-b"})
-  # )
 }
 
 resource "aws_route_table_association" "public_b" {
@@ -100,7 +95,7 @@ resource "aws_nat_gateway" "public_b" {
 resource "aws_subnet" "private_a" {
   cidr_block        = "10.1.10.0/24"
   vpc_id            = aws_vpc.main.id
-  availability_zone = "${data.aws_region.current.name}a"
+  availability_zone = "${var.aws_region}a"
 
 
 }
@@ -125,7 +120,7 @@ resource "aws_route" "private_a_internet_out" {
 resource "aws_subnet" "private_b" {
   cidr_block        = "10.1.11.0/24"
   vpc_id            = aws_vpc.main.id
-  availability_zone = "${data.aws_region.current.name}b"
+  availability_zone = "${var.aws_region}b"
 
 
 }
@@ -146,3 +141,15 @@ resource "aws_route" "private_b_internet_out" {
   nat_gateway_id         = aws_nat_gateway.public_b.id
   destination_cidr_block = "0.0.0.0/0"
 }
+
+################# RDS ##########################
+resource "aws_db_subnet_group" "main" {
+  name = "${var.project_name}-main"
+  subnet_ids = [
+    aws_subnet.private_a.id,
+    aws_subnet.private_b.id,
+  ]
+}
+################################################
+
+

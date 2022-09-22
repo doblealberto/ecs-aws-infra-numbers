@@ -1,9 +1,10 @@
-variable "prefix" {
-  default = "finalproject"
+
+variable "aws_region" {
+  default = "us-east-1"
 }
 
-variable "project" {
-  default = "final-challenge"
+variable "project_name" {
+  default = "final-challenge-test-1"
 }
 
 variable "contact" {
