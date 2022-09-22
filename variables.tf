@@ -4,7 +4,7 @@ variable "aws_region" {
 }
 
 variable "project_name" {
-  default = "final-challenge-test-1"
+  default = "numbers"
 }
 
 variable "contact" {
