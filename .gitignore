@@ -41,7 +41,6 @@ terraform.rc
 # End of https://www.toptal.com/developers/gitignore/api/terraform
 
 # Ignore terraform lock
-.terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup
 # Ignore the sensitive_folder to store keys
