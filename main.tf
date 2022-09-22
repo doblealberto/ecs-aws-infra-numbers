@@ -30,15 +30,6 @@ module "network" {
 
     aws_region = var.aws_region
     project_name = local.project_name
-
-# outputs:
-#   - subnetgroup_db_name
-#   - private_a_subnet_id
-#   - public_a_subnet_id
-#   - private_b_subnet_id
-#   - subnet_private_a_cidr_block
-#   - subnet_private_b_cidr_block
-#   - vpc_id
 }
 
 module "sgs" {
@@ -50,12 +41,6 @@ module "sgs" {
   depends_on = [
     module.network,
   ]
-
-# outputs: 
-#   - rds_security_group_id 
-#   - bastion_security_group_id 
-#   - ecs_service_security_group_id 
-
 }
 
 module "iam" {
@@ -90,26 +75,11 @@ module "database" {
       module.network, 
       module.sgs,
    ]
-    
-
-
-# outputs 
-#   - db_host
-#   - db_name
-#   - db_user
-#   - db_pass
-#   - port
 }
 
 module "ecr" {
    source =  "./modules/ecr"
    project_name = local.project_name
-
-#   outputs: 
-#     - proxy_image_url
-#     - client_image_url
-#     - api_image_url
-
 }
 
 
