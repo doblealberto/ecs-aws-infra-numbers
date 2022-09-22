@@ -48,5 +48,5 @@ jobs:
       
     - name: Terraform Apply
       id: apply
-      run: terraform apply -auto-approve
+      run: terraform apply -var="db_username=${{ secrets.TF_VAR_DB_USERNAME }}" -var="db_password=${{ secrets.TF_VAR_DB_PASSWORD }}" -auto-approve 
       continue-on-error: true
