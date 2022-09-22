@@ -1,6 +1,6 @@
 variable public_a_subnet_id {
     type = string
-    description = "Placeholder description"
+    description = "Public a subnet id"
 } 
 variable public_b_subnet_id {
     type = string
