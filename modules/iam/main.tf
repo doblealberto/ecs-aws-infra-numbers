@@ -21,6 +21,16 @@ resource "aws_iam_role" "app_iam_role" {
   assume_role_policy = file("${path.module}/policies/assume-role-policy.json")
 }
 
+resource "aws_iam_role" "ecs-autoscale-role" {
+  name = "${var.project_name}-ecs-scale-application"
+  assume_role_policy = file("${path.module}/policies/ecs-auto-scaling-policy.json")
+}
+
+resource "aws_iam_role_policy_attachment" "ecs-autoscale" {
+  role = aws_iam_role.ecs-autoscale-role.id
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceAutoscaleRole"
+}
+
 
 #############################################################
 ### BASTION #################################################

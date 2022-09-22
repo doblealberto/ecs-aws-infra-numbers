@@ -109,7 +109,7 @@ module "ecs" {
 
     
 
-
+    
     api_image_url = module.ecr.client_image_url
     proxy_image_url = module.ecr.proxy_image_url
     client_image_url = module.ecr.client_image_url
@@ -127,6 +127,7 @@ module "ecs" {
 
     ecs_execution_role_arn = module.iam.ecs_execution_role_arn 
     task_role_arn  = module.iam.task_role_arn
+    ecs_auto_scaling_role_arn = module.iam.ecs_auto_scaling_role_arn
 
     dns_name = module.load-balancer.dns_name
     target_group_arn = module.load-balancer.target_group_arn

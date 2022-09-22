@@ -25,6 +25,8 @@ variable client_image_url {
     type = string
     description = "Placeholder description"
 } 
+
+
 #####################################################
 ####### RDS #########################################
 #####################################################
@@ -77,6 +79,10 @@ variable ecs_execution_role_arn {
 variable task_role_arn {
     type = string
     description = "Placeholder description"
+}
+variable ecs_auto_scaling_role_arn {
+    type = string
+    description = "Role of the autoscaling policy"
 }
 
 ######################################################

@@ -14,3 +14,6 @@ output instance_profile_bastion_name {
 value = aws_iam_instance_profile.bastion.name
 }
 
+output ecs_auto_scaling_role_arn {
+value = aws_iam_role.ecs-autoscale-role.arn
+}
