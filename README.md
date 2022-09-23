@@ -33,6 +33,16 @@ resource "aws_route53_record" "app" {
   records = [var.lb_dns_name]
 }
 ```
+### OUPUTS OF DNS MODULE:
+```
+
+output "validated_certificate_arn" {
+    value =  aws_acm_certificate_validation.cert.certificate_arn
+}
+output "fqdn" {
+    value = aws_route53_record.app.fqdn
+}
+```
 ## SGS MODULE
 Control rules for the resources,  in case of an atack this groups will make the potential resources available for our atacker less in number. In this sense here is a look of one of the `security groups` for the `load balancer resource`
 
