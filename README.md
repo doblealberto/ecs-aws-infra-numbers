@@ -83,9 +83,6 @@ module "ecs" {
     source = "./modules/ecs"
     aws_region = var.aws_region
     project_name = local.project_name
-
-    
-
     
     api_image_url = module.ecr.client_image_url
     proxy_image_url = module.ecr.proxy_image_url
