@@ -86,7 +86,7 @@ output "api_image_url" {
     value = aws_ecr_repository.backend.repository_url
 }
 ```
-### AUTOSCALING
+
 
 ## ECS MODULE
 Allow us to manage our docker images in a simple way at the same time while making the right tweeking it could saves us
@@ -124,6 +124,7 @@ module "ecs" {
 }
 
 ```
+### ECS AUTOSCALING
 ## CI CD AND GITOPS
 In this sense we managed it with terraform and `github actions` and `terraform important parts to notice at the workflows are:
 
