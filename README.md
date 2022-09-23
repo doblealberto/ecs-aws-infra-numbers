@@ -76,8 +76,23 @@ resource "aws_security_group" "lb" {
 
 }
 ```
-
 As we see we give our resource only the access that it needs no more no less.
+### MODULE OUPUTS 
+```
+output rds_security_group_id {
+    value = aws_security_group.rds.id
+}
+output bastion_security_group_id {
+    value = aws_security_group.bastion.id
+}
+output ecs_service_security_group_id {
+    value = aws_security_group.ecs_service.id
+}
+
+output security_groups_lb_id {
+    value = aws_security_group.lb.id
+}
+```
 ## BASTION SERVER MODULE
 Also known as `jump server` gives us the possibility to access our database via a command line interface.
 ```
@@ -98,7 +113,7 @@ module "bastion" {
 
 ## ECR MODULE
 Creates the repositories for the three images of this project. 
-* MODULE OUPUTS:
+### MODULE OUPUTS:
 ```
 output "proxy_image_url" {
     value = aws_ecr_repository.proxy.repository_url
