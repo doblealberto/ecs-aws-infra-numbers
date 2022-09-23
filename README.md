@@ -77,7 +77,6 @@ Makes the fucntion of our private docker images repository which allows to save 
 Allow us to manage our docker images in a simple way at the same time while making the right tweeking it could saves us
 some money. Ecs allow us to manage our docker images via `tasks definitions` we created a template file that shows the three containers of this specific application, the content of the file is not hard to understand as long as you have some little experience working with docker or k8s.
 
-MODULE OUTPUTS:
 ```
 module "ecs" {
     source = "./modules/ecs"
