@@ -4,7 +4,7 @@ Its an app running on ECS the architecture of the app is described bellow.
 TEST IT YOURSELF: https://dev.numbersappecs.tk/
 APPLICATION CODE AT:  https://github.com/doblealberto/numbers-app
 
-![Example Image](https://drive.google.com/uc?id=1yj4zeIA5cQe_eYPlbJyHx5TvVxChfnpJ)
+![Example Image](https://drive.google.com/uc?id=1ECUEF_41wjoeG1xRk9cKxPhU1XY6Y9cm)
 
 As we can see we use `ECS` and `ECR` to provision and orchestrate our docker images, we got three images one is `proxy` which is in charge of serving as a reverse proxy for our api and client this enhace security as our clients never get to access both the `backend` and `frontend` of our application.
 
