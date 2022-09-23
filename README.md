@@ -9,14 +9,29 @@ APPLICATION CODE AT:  https://github.com/doblealberto/numbers-app
 As we can see we use `ECS` and `ECR` to provision and orchestrate our docker images, we got three images one is `proxy` which is in charge of serving as a reverse proxy for our api and client this enhace security as our clients never get to access both the `backend` and `frontend` of our application.
 
 
-## AMAZON VPC
-Provides a custom space to develop our infrastructure as its stated in the image above we created a total of 4 subnets
-in two different availability zones, this architectural design decision helped us to guaranted more `resilience` in our application. `CIDR` block for the vpc is  `10.0.1.0/16` which is kind of and standard value when developing vpc.
-## INTERNET GATEWAY
-Allows to ingress our resources from the internet.
-## NAT GATEWAY
-Allows our resources to pull images from our ecr repository and provides `outbound` access for our resources inside 
-the vpc. 
+## IAM MODULE
+## MODULE OUTPUTS
+```
+output ecs_execution_role_arn {
+value = aws_iam_role.task_execution_role.arn
+}      
+
+output task_role_arn {
+value = aws_iam_role.app_iam_role.arn
+}
+
+output bastion_role_arn {
+value = aws_iam_role.bastion.arn
+}
+
+output instance_profile_bastion_name {
+value = aws_iam_instance_profile.bastion.name
+}
+
+output ecs_auto_scaling_role_arn {
+value = aws_iam_role.ecs-autoscale-role.arn
+}
+```
 ## DNS MODULE 
 To pair our application load balancer dns with our domain `numbersappecs.tk` we have previously created a hosted zone in aws and register our name servers in the domain provider, the final subdomain varies according with de environment we are using we perform a terraform `lookup` function to determine the right prefix for our subdomain 
 ```
