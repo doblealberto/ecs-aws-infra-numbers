@@ -52,7 +52,7 @@ resource "aws_security_group" "lb" {
 ```
 
 As we see we give our resource only the access that it needs no more no less.
-## Bastion server
+## BASTION SERVER MODULE
 Also known as `jump server` gives us the possibility to access our database via a command line interface.
 ```
 resource "aws_key_pair" "bastion_key" {
