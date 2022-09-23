@@ -1,4 +1,4 @@
-# SIMPLE NUMBER STORAGE
+# SIMPLE NUMBER STORAGE ARCHITECTURE
 
 Its an app running on ECS the architecture of the app is described bellow.
 TEST IT YOURSELF: https://dev.numbersappecs.tk/
