@@ -17,21 +17,38 @@ Allows to ingress our resources from the internet.
 ## NAT GATEWAY
 Allows our resources to pull images from our ecr repository and provides `outbound` access for our resources inside 
 the vpc. 
-## ROUTE TABLES
-Allows our subnets to comunicate between then while developing our infrastructure it is important that we define 
-both `security groups` and `ingrees and egress` control rules for them in case of an atack it will make the potential resources available for our atacker less in number. In this sense here is a look of one of the `ingress rules` for our postgres database provisioned by managed database `rds`
+## SECURITY GROUPS
+Control rules for the resources,  in case of an atack this groups will make the potential resources available for our atacker less in number. In this sense here is a look of one of the `security groups` for the `load balancer resource`
 
 
 ```
-ingress {
-    protocol  = "tcp"
-    from_port = 5432
-    to_port   = 5432
+resource "aws_security_group" "lb" {
+  description = "Allow access to Application Load Balancer"
+  name        = "${var.project_name}-lb"
+  vpc_id      = var.vpc_id
 
-    security_groups = [
-      aws_security_group.bastion.id,
-      aws_security_group.ecs_service.id,
-    ]
+  ingress {
+    protocol    = "tcp"
+    from_port   = 80
+    to_port     = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+   ingress {
+    protocol    = "tcp"
+    from_port   = 443
+    to_port     = 443
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    protocol    = "tcp"
+    from_port   = 8000
+    to_port     = 8000
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+}
 ```
 
 As we see we give our resource only the access that it needs no more no less.
