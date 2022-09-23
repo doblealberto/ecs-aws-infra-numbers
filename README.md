@@ -10,6 +10,17 @@ As we can see we use `ECS` and `ECR` to provision and orchestrate our docker ima
 
 
 ## IAM MODULE
+### MODULE FOLDER STRUCTURE
+```
+├── main.tf
+├── ouputs.tf
+├── policies
+│   ├── assume-role-policy.json
+│   ├── ecs-auto-scaling-policy.json
+│   ├── instance-profile-policy.json
+│   └── task-exec-role.json
+└── variables.tf
+```
 ### MODULE OUTPUTS
 ```
 output ecs_execution_role_arn {
