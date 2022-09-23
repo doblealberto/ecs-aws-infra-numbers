@@ -86,6 +86,7 @@ output "api_image_url" {
     value = aws_ecr_repository.backend.repository_url
 }
 ```
+### AUTOSCALING
 
 ## ECS MODULE
 Allow us to manage our docker images in a simple way at the same time while making the right tweeking it could saves us
@@ -122,17 +123,6 @@ module "ecs" {
 
 }
 
-### AUTOSCALING
-
-```
-## CLOUDWATCH
-Allows us to provide some `monitoring` and `alerting` to our platfform. in this sense we added a log group for our resources.
-```
-resource "aws_cloudwatch_log_group" "ecs_task_logs" {
-  name = "${local.prefix}-api"
-
-  tags = local.common_tags
-}
 ```
 ## CI CD AND GITOPS
 In this sense we managed it with terraform and `github actions` and `terraform important parts to notice at the workflows are:
