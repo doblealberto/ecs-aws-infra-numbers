@@ -135,15 +135,17 @@ resource "aws_cloudwatch_log_group" "ecs_task_logs" {
 In this sense we managed it with terraform and `github actions` and `terraform important parts to notice at the workflows are:
 
 ```
- - name: Terraform Plan
+  - name: Terraform Plan
       id: plan
-      env:
-        db_username: ${{ secrets.TF_VAR_DB_USERNAME }}
-        db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
-        run: |
-         terraform workspace ${{ github.ref_name }} || terraform workspace new ${{ github.ref_name }}
-         terraform plan -var="db_username=${{ secrets.TF_VAR_DB_USERNAME }}" -var="db_password=${{ secrets.TF_VAR_DB_PASSWORD }}" 
-        continue-on-error: true
+      run: |
+        terraform workspace select ${{ github.ref_name }} || workspace new ${{ github.ref_name }}
+        terraform plan -var="db_username=${{ secrets.TF_VAR_DB_USERNAME }}" -var="db_password=${{ secrets.TF_VAR_DB_PASSWORD }}"
+      continue-on-error: true
+      
+    - name: Terraform Apply
+      id: apply
+      run: terraform apply -var="db_username=${{ secrets.TF_VAR_DB_USERNAME }}" -var="db_password=${{ secrets.TF_VAR_DB_PASSWORD }}" -auto-approve 
+      continue-on-error: true
 ```
 which allows us to define our secrets for our database a better implentation of this could have be to use `vault` or any other secret management tool. At the same time `terraform` allows us to manage `multienvironment` management as stated in the challenge.
 
