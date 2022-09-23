@@ -73,7 +73,7 @@ module "bastion" {
 ## ECR MODULE
 Creates the repositories for the three images of this project. 
 * MODULE OUPUTS:
-"""
+```
 output "proxy_image_url" {
     value = aws_ecr_repository.proxy.repository_url
 }
@@ -85,7 +85,7 @@ output "client_image_url" {
 output "api_image_url" {
     value = aws_ecr_repository.backend.repository_url
 }
-"""
+```
 
 ## ECS MODULE
 Allow us to manage our docker images in a simple way at the same time while making the right tweeking it could saves us
