@@ -121,6 +121,9 @@ module "ecs" {
 
 
 }
+
+### AUTOSCALING
+
 ```
 ## CLOUDWATCH
 Allows us to provide some `monitoring` and `alerting` to our platfform. in this sense we added a log group for our resources.
