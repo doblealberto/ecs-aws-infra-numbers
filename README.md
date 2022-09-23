@@ -125,6 +125,45 @@ module "ecs" {
 
 ```
 ### ECS AUTOSCALING
+Autoscaling solution has been performed taking two main metrics.
+1. Cpu utilization. (target = 37.3)
+2. Ram utilization. (target = 7.83)
+Parameters have been set according to mean values of use and in case of a peak the tasks will increment to 5
+
+```
+
+resource "aws_appautoscaling_policy" "ecs_target_cpu" {
+  name               = "application-scaling-policy-cpu"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.ecs_target.resource_id
+  scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+    target_value = 37.3
+  }
+  depends_on = [aws_appautoscaling_target.ecs_target]
+}
+
+resource "aws_appautoscaling_policy" "ecs_target_memory" {
+  name               = "application-scaling-policy-memory"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.ecs_target.resource_id
+  scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageMemoryUtilization"
+    }
+    target_value = 7.83
+  }
+  depends_on = [aws_appautoscaling_target.ecs_target]
+}
+```
 ## CI CD AND GITOPS
 In this sense we managed it with terraform and `github actions` and `terraform important parts to notice at the workflows are:
 
