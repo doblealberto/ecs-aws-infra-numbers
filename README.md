@@ -10,7 +10,7 @@ As we can see we use `ECS` and `ECR` to provision and orchestrate our docker ima
 
 
 ## IAM MODULE
-## MODULE OUTPUTS
+### MODULE OUTPUTS
 ```
 output ecs_execution_role_arn {
 value = aws_iam_role.task_execution_role.arn
