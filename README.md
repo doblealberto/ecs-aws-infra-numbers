@@ -8,7 +8,41 @@ APPLICATION CODE AT:  https://github.com/doblealberto/numbers-app
 
 As we can see we use `ECS` and `ECR` to provision and orchestrate our docker images, we got three images one is `proxy` which is in charge of serving as a reverse proxy for our api and client this enhace security as our clients never get to access both the `backend` and `frontend` of our application.
 
+## NETWORK MODULE
+Configures our public and private subnets this is the core of the infrasctructure most of the resources depends on this module. 
 
+### MODULE OUPUTS 
+```
+
+output subnetgroup_db_name {
+    value = aws_db_subnet_group.main.name
+}
+
+output private_a_subnet_id{
+    value = aws_subnet.private_a.id
+}
+
+output private_b_subnet_id{
+    value = aws_subnet.private_b.id
+}
+
+output public_a_subnet_id{
+    value = aws_subnet.public_a.id
+}
+output public_b_subnet_id{
+    value = aws_subnet.public_b.id
+}
+
+output subnet_private_a_cidr_block{
+    value = aws_subnet.private_a.cidr_block
+}
+output subnet_private_b_cidr_block{
+    value = aws_subnet.private_b.cidr_block
+}
+output vpc_id {
+    value = aws_vpc.main.id
+}
+```
 ## IAM MODULE
 ### MODULE FOLDER STRUCTURE
 ```
