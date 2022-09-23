@@ -147,25 +147,3 @@ In this sense we managed it with terraform and `github actions` and `terraform i
 ```
 which allows us to define our secrets for our database a better implentation of this could have be to use `vault` or any other secret management tool. At the same time `terraform` allows us to manage `multienvironment` management as stated in the challenge.
 
-A complementary workflow that helps us automate everything is at your dispossal in: https://github.com/doblealberto/numbers-app
-
-```
-# ################################################################
-# ###################### BUILD and push image ####################
-# ################################################################
-       - name: Push client frontend
-         uses: actions/checkout@v3
-         id: push-client-frontend 
-         env:
-          ECR_REGISTRY: "${{ steps.login-ecr.outputs.registry }}"
-          ECR_REPOSITORY: "finalproject-${{ github.ref_name }}-frontend-image"
-          IMAGE_TAG: ${{ steps.generate_sha.outputs.sha }}
-         run: |
-          docker build .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY::latest
-```
-the most important part in that workflow is maybe this snippet which sends our images to `ECR` in their correct environment and container.
-
-
