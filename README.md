@@ -55,23 +55,21 @@ As we see we give our resource only the access that it needs no more no less.
 ## BASTION SERVER MODULE
 Also known as `jump server` gives us the possibility to access our database via a command line interface.
 ```
-resource "aws_key_pair" "bastion_key" {
-  key_name   = "${local.prefix}-bastion-key"
-  public_key = tls_private_key.rsa.public_key_openssh
-}
+module "bastion" {
+  source = "./modules/bastion"
+  project_name = local.project_name
 
-resource "tls_private_key" "rsa" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
+  bastion_security_group_id = module.sgs.bastion_security_group_id 
+  public_a_subnet_id = module.network.public_a_subnet_id
 
-resource "local_file" "bastion_key" {
-    content  = tls_private_key.rsa.private_key_pem
-    filename =  "${local.prefix}-bastion-key"
+  instance_profile_bastion_name = module.iam.instance_profile_bastion_name
+  depends_on = [
+    module.sgs,
+    module.network 
+  ]
 }
 ```
-in order to access our bastion server we first generated a key value pair that then let's us authenticate via asymetric
-encrytion.
+
 ## ECR 
 Makes the fucntion of our private docker images repository which allows to save our images in a secure way, in order to make it easie to reutilize the image uris we created a module inside the `modules` folder
 
