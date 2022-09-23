@@ -19,7 +19,7 @@ Allows our resources to pull images from our ecr repository and provides `outbou
 the vpc. 
 ## DNS MODULE 
 To pair our application load balancer dns with our domain `numbersappecs.tk` we have previously created a hosted zone in aws and register our name servers in the domain provider, the final subdomain varies according with de environment we are using we perform a terraform `lookup` function to determine the right prefix for our subdomain 
-'''
+```
 data "aws_route53_zone" "zone" {
   name         = "${var.domain_name}."
 }
@@ -32,7 +32,7 @@ resource "aws_route53_record" "app" {
 
   records = [var.lb_dns_name]
 }
-'''
+```
 ## SGS MODULE
 Control rules for the resources,  in case of an atack this groups will make the potential resources available for our atacker less in number. In this sense here is a look of one of the `security groups` for the `load balancer resource`
 
