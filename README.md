@@ -265,6 +265,30 @@ resource "aws_appautoscaling_policy" "ecs_target_memory" {
   depends_on = [aws_appautoscaling_target.ecs_target]
 }
 ```
+## DATABASE MODULE.
+Configures a postgres instance for storing the data related to our project.
+### MODULE OUPUTS
+```
+output db_host {
+    value = aws_db_instance.main.address
+}          
+
+output db_name {
+    value = aws_db_instance.main.name
+}          
+
+output db_user {
+    value = aws_db_instance.main.username
+}          
+
+output db_pass {
+    value = aws_db_instance.main.password
+}          
+
+output port    {
+    value = aws_db_instance.main.port
+}   
+```
 ## CI CD AND GITOPS
 In this sense we managed it with terraform and `github actions` and `terraform important parts to notice at the workflows are:
 
