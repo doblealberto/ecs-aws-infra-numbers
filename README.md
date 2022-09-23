@@ -70,8 +70,10 @@ module "bastion" {
 }
 ```
 
-## ECR 
-Makes the fucntion of our private docker images repository which allows to save our images in a secure way, in order to make it easie to reutilize the image uris we created a module inside the `modules` folder
+## ECR MODULE
+Creates the repositories for the three images of this project. 
+MODULE OUPUTS:
+
 
 ## ECS MODULE
 Allow us to manage our docker images in a simple way at the same time while making the right tweeking it could saves us
