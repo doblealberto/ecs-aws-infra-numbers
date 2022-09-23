@@ -73,43 +73,44 @@ module "bastion" {
 ## ECR 
 Makes the fucntion of our private docker images repository which allows to save our images in a secure way, in order to make it easie to reutilize the image uris we created a module inside the `modules` folder
 
-## ECS
+## ECS MODULE
 Allow us to manage our docker images in a simple way at the same time while making the right tweeking it could saves us
-some money. Ecs allow us to manage our docker images via `tasks definitions` we created a template file that states our 3 resources the content of the file is similar to the following as you see with a little experience on containers its not
-hard to understand:
-```
+some money. Ecs allow us to manage our docker images via `tasks definitions` we created a template file that shows the three containers of this specific application, the content of the file is not hard to understand as long as you have some little experience working with docker or k8s.
 
-[
-    {
-        "name": "api",
-        "image": "${app_image}",
-        "essential": true,
-        "memoryReservation": 128,
-        "environment": [
-            {"name": "PG_HOST", "value": "${db_host}"},
-            {"name": "PG_DATABASE", "value": "${db_name}"},
-            {"name": "PG_USER", "value": "${db_user}"},
-            {"name": "PG_PASSWORD", "value": "${db_pass}"},
-            {"name": "PG_PORT", "value": "${port}"}
-        ],
-        "logConfiguration": {
-            "logDriver": "awslogs",
-            "options": {
-                "awslogs-group": "${log_group_name}",
-                "awslogs-region": "${log_group_region}",
-                "awslogs-stream-prefix": "api"
-            }
-        },
-        "portMappings": [
-            {
-                "containerPort": 5000,
-                "hostPort": 5000
-            }
-        ],
-        "mountPoints": [
-        ]
-    },
-]
+MODULE OUTPUTS:
+```
+module "ecs" {
+    source = "./modules/ecs"
+    aws_region = var.aws_region
+    project_name = local.project_name
+
+    
+
+    
+    api_image_url = module.ecr.client_image_url
+    proxy_image_url = module.ecr.proxy_image_url
+    client_image_url = module.ecr.client_image_url
+
+    db_host = module.database.db_host
+    db_name = module.database.db_name 
+    db_user = module.database.db_user
+    db_pass = module.database.db_pass
+    port = module.database.port
+
+    private_a_subnet_id = module.network.private_a_subnet_id
+    private_b_subnet_id = module.network.private_b_subnet_id
+
+    ecs_service_security_group_id = module.sgs.ecs_service_security_group_id 
+
+    ecs_execution_role_arn = module.iam.ecs_execution_role_arn 
+    task_role_arn  = module.iam.task_role_arn
+    ecs_auto_scaling_role_arn = module.iam.ecs_auto_scaling_role_arn
+
+    dns_name = module.dns.fqdn
+    target_group_arn = module.load-balancer.target_group_arn
+
+
+}
 ```
 ## CLOUDWATCH
 Allows us to provide some `monitoring` and `alerting` to our platfform. in this sense we added a log group for our resources.
